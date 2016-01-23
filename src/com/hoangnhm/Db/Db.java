@@ -69,8 +69,9 @@ public class Db {
 //            resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list");
             for (Word w : words) {
                 Statement statementUpdate = connection.createStatement();
-                statementUpdate.execute("UPDATE word_list SET uk_pron='" + w.getUkPron() + "', us_pron='"
-                        + w.getUsPron() + "' WHERE word='" + w.getWord() + "' AND type='" + w.getType() + "'");
+                String query = String.format("UPDATE word_list SET uk_pron='%s', us_pron='%s' WHERE word='%s' AND type='%s'",
+                        w.getUkPron(), w.getUsPron(), w.getWord(), w.getType());
+                statementUpdate.execute(query);
                 statementUpdate.close();
             }
         } catch (Exception e) {

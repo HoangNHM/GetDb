@@ -22,7 +22,6 @@ public class File {
         mCharset = Charset.forName("UTF-8");
         mFilePath = FileSystems.getDefault().getPath(fileName);
         mOpenOptions = new OpenOption[] {StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
-
     }
 
     public void writeToFile(List<String> strings) throws IOException {

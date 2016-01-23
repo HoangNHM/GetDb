@@ -21,7 +21,7 @@ public class HtmlToBean {
         this.mWord = word;
     }
 
-    public void queryHtml() throws Exception, IndexOutOfBoundsException {
+    public void queryHtml() throws Exception {
         String lowcaseWord = mWord.getWord().toLowerCase();
 //        mWord.setWord(lowcaseWord);
         String type = modifyType(mWord.getType());
@@ -31,15 +31,16 @@ public class HtmlToBean {
 
         Elements elements = doc.getElementsByClass(Constant.POS_HEADER);
         Element element = findSameType(elements, type);
-        if (element == null) {
+        if (element == null || element.childNodeSize() < 1) {
+            throw new Exception("type not found");
 //            System.out.println(mWord.getWord() + " -------- 609 type not found");
-            return;
         }
         List<String> list = getPron(element);
-        if (null != list) {
+        if (null != list && list.size() > 0) {
             BeanAdapter adapter = new BeanAdapter(mWord);
             adapter.setPron(list);
         } else {
+            throw new Exception("pron not found");
 //            System.out.println(mWord.getWord() + " -------- empty pron");
         }
     }
