@@ -13,6 +13,7 @@ import java.util.List;
  * Created by vantuegia on 1/20/2016.
  */
 public class Db {
+
     public List<Word> queryDb() {
         List<Word> words = new ArrayList<>();
         Connection connection = null;
@@ -23,7 +24,7 @@ public class Db {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:collo_dictionary.db");
             statement = connection.createStatement();
-//            resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list WHERE word_id < \"10\"");
+//            resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list WHERE word_id < \"20\"");
             resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list");
             while (resultSet.next()) {
                 Word word = new Word();
@@ -54,5 +55,33 @@ public class Db {
             }
         }
         return words;
+    }
+
+    public void updateDb(List<Word> words) {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:collo_dictionary.db");
+            statement = connection.createStatement();
+//            resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list WHERE word_id < \"20\"");
+//            resultSet = statement.executeQuery("SELECT word, type, word_id FROM word_list");
+            for (Word w : words) {
+                Statement statementUpdate = connection.createStatement();
+                statementUpdate.execute("UPDATE word_list SET uk_pron='" + w.getUkPron() + "', us_pron='"
+                        + w.getUsPron() + "' WHERE word='" + w.getWord() + "' AND type='" + w.getType() + "'");
+                statementUpdate.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

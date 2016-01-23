@@ -24,15 +24,15 @@ public class HtmlToBean {
     public void queryHtml() throws Exception, IndexOutOfBoundsException {
         String lowcaseWord = mWord.getWord().toLowerCase();
 //        mWord.setWord(lowcaseWord);
-        modifyType(mWord.getType());
+        String type = modifyType(mWord.getType());
         Document doc = Jsoup.connect("http://dictionary.cambridge.org/dictionary/english/" + lowcaseWord)
                 .timeout(Constant.TIMEOUT)
                 .post();
 
         Elements elements = doc.getElementsByClass(Constant.POS_HEADER);
-        Element element = findSameType(elements);
+        Element element = findSameType(elements, type);
         if (element == null) {
-            System.out.println(mWord.getWord() + " -------- 609 type not found");
+//            System.out.println(mWord.getWord() + " -------- 609 type not found");
             return;
         }
         List<String> list = getPron(element);
@@ -40,17 +40,17 @@ public class HtmlToBean {
             BeanAdapter adapter = new BeanAdapter(mWord);
             adapter.setPron(list);
         } else {
-            System.out.println(mWord.getWord() + " -------- empty pron");
+//            System.out.println(mWord.getWord() + " -------- empty pron");
         }
     }
 
-    private Element findSameType(Elements elements) throws Exception {
+    private Element findSameType(Elements elements, String type) throws Exception {
         Element element = null;
         TopLoop:
         for (Element ele : elements) {
             Elements eles = ele.getElementsByClass(Constant.POS);
             for (Element e : eles) {
-                if (e.text().equals(mWord.getType())) {
+                if (e.text().equals(type)) {
 //                    System.out.println(ele);
                     element = ele;
                     break TopLoop;
@@ -73,17 +73,12 @@ public class HtmlToBean {
         return strings;
     }
 
-    private void modifyType(String type) {
+    private String modifyType(String type) {
         switch (type) {
-            case "noun":
-                mWord.setType("noun");
-                break;
-            case "verb":
-                mWord.setType("verb");
-                break;
             case "adj.":
-                mWord.setType("adjective");
-                break;
+                return "adjective";
+            default:
+                return mWord.getType();
         }
     }
 

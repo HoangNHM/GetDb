@@ -1,0 +1,2 @@
+8 A level org.jsoup.HttpStatusException: HTTP error fetching URL. Status=404, URL=http://dictionary.cambridge.org/dictionary/english/a%20level
+13 court martial org.jsoup.HttpStatusException: HTTP error fetching URL. Status=404, URL=http://dictionary.cambridge.org/dictionary/english/court%20martial

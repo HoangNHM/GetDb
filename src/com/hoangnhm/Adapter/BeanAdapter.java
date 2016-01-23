@@ -2,7 +2,6 @@ package com.hoangnhm.Adapter;
 
 import com.hoangnhm.Bean.Word;
 import com.hoangnhm.Util.Constant;
-import com.hoangnhm.Util.WordType;
 
 import java.util.List;
 

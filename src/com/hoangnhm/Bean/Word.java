@@ -1,7 +1,6 @@
 package com.hoangnhm.Bean;
 
 import com.hoangnhm.Util.Constant;
-import com.hoangnhm.Util.WordType;
 
 
 /**
@@ -14,7 +13,10 @@ public class Word {
     private String mUkPron;
     private String mUsPron;
 
-    public Word() {}
+    public Word() {
+        mUkPron = "";
+        mUsPron = "";
+    }
 
     public String getWord() {
         return mWord;
