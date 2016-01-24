@@ -16,23 +16,38 @@ public class File {
     private final Charset mCharset;
     private Path mFilePath;
     private OpenOption[] mOpenOptions;
+    public BufferedWriter mWriter;
 
     public File(String fileName) {
 
         mCharset = Charset.forName("UTF-8");
         mFilePath = FileSystems.getDefault().getPath(fileName);
-        mOpenOptions = new OpenOption[] {StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+        mOpenOptions = new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.APPEND};
+        try {
+            mWriter = Files.newBufferedWriter(mFilePath, mCharset, mOpenOptions);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void writeToFile(List<String> strings) throws IOException {
+    public void writeToFile(List<String> strings) {
 
-        try (BufferedWriter writer = Files.newBufferedWriter(mFilePath, mCharset, mOpenOptions)) {
-            for (String s : strings) {
-                writer.write(s);
-                writer.newLine();
+        for (String s : strings) {
+            try {
+                mWriter.write(s);
+                mWriter.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
+        }
+    }
+
+    public void writeToFile(String errorMsg) {
+        try {
+            mWriter.write(errorMsg);
+            mWriter.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

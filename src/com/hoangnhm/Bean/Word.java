@@ -8,10 +8,12 @@ import com.hoangnhm.Util.Constant;
  */
 public class Word {
 
+    private String mRowId;
     private String mWord;
     private String mType;
     private String mUkPron;
     private String mUsPron;
+    private String mErrorMsg;
 
     public Word() {
         mUkPron = "";
@@ -48,5 +50,21 @@ public class Word {
 
     public void setUsPron(String mUsPron) {
         this.mUsPron = mUsPron;
+    }
+
+    public String getRowId() {
+        return mRowId;
+    }
+
+    public void setRowId(String mRowId) {
+        this.mRowId = mRowId;
+    }
+
+    public String getErrorMsg() {
+        return mErrorMsg;
+    }
+
+    public void setErrorMsg(String mErrorMsg) {
+        this.mErrorMsg = mErrorMsg;
     }
 }
